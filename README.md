@@ -1,224 +1,264 @@
-Linux Server Administration
+<div align="center">
 
-My personal learning journey to understand Linux System Administration from the fundamentals.
+# 🐧 Linux Server Administration
 
-📌 About This Repository
+### My Linux System Administration Learning Portfolio
 
-This repository contains my hands-on practice while learning Linux System Administration using a Virtual Machine.
+Learning Linux from the fundamentals through hands-on practice using Ubuntu Virtual Machine.
 
-The goal is not only to collect Linux commands, but to understand:
+<img src="https://img.shields.io/badge/Linux-Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white">
+<img src="https://img.shields.io/badge/Bash-Scripting-121011?style=for-the-badge&logo=gnu-bash&logoColor=white">
+<img src="https://img.shields.io/badge/Status-Learning-success?style=for-the-badge">
 
-How Linux manages users and groups
-Why permissions exist
-How system administrators manage accounts
-How to automate repetitive tasks using Bash scripts
+</div>
 
-Every script in this repository is created after understanding the manual process first.
+---
 
-Repository Structure
+# 📖 About
+
+This repository documents my journey in learning Linux System Administration.
+
+The objective is **not only to memorize commands**, but to understand how Linux works internally through real-world practice.
+
+Topics covered include:
+
+* User Management
+* Group Management
+* Linux Permissions
+* Home Directory Backup
+* Bash Automation
+* File Management
+* System Administration
+
+---
+
+# 📂 Repository Structure
+
+```text
 linux-server-administration/
 │
 ├── README.md
-├── user-management/
-│   ├── create-user.sh
-│   ├── delete-user.sh
-│   └── backup-home.sh
-Learning Roadmap
+│
+└── user-management/
+    ├── create-user.sh
+    ├── delete-user.sh
+    └── backup-home.sh
+```
 
-Linux User
+---
 
-Linux Group
+# 🎯 Learning Progress
 
-User Permissions
+| Module             | Status |
+| ------------------ | :----: |
+| Linux User         |    ✅   |
+| Linux Group        |    ✅   |
+| User Permission    |    ✅   |
+| Create User        |    ✅   |
+| Backup Home        |    ✅   |
+| Delete User        |    ✅   |
+| Bash Automation    |   🔄   |
+| File Permission    |    ⏳   |
+| Cron Job           |    ⏳   |
+| Process Management |    ⏳   |
 
-User Management
+---
 
-Home Directory Backup
+# 👤 Module 1 — Linux Users
 
-Bash Automation
+A Linux user is an account that can authenticate and interact with the operating system.
 
-Cron Job
+### Useful Commands
 
-File Permission
-
-Process Management
-
-Module 1 — Understanding Users
-What is a User?
-
-A user is an account that can log in to a Linux system.
-
-Example:
-
-root
-dimas
-postgres
-www-data
-
-Each user has:
-
-Username
-UID (User ID)
-Primary Group
-Home Directory
-Login Shell
-
-Useful commands:
-
+```bash
 whoami
 id
 echo $HOME
 cat /etc/passwd
-Module 2 — Understanding Groups
+```
 
-Linux uses groups to manage permissions more efficiently.
+### Every user has
 
-Instead of assigning permissions one user at a time, permissions are usually assigned to groups.
+* Username
+* UID
+* Primary Group
+* Home Directory
+* Login Shell
 
-Examples:
+---
 
+# 👥 Module 2 — Linux Groups
+
+Groups simplify permission management by allowing multiple users to share the same privileges.
+
+### Examples
+
+```text
 sudo
 docker
 cdrom
 www-data
+```
 
-Useful commands:
+### Useful Commands
 
+```bash
 groups
 groups dimas
 id dimas
 cat /etc/group
 getent group sudo
+```
 
-Example:
+### Example
 
+```bash
 sudo usermod -aG docker dimas
+```
 
-Meaning:
+Meaning
 
-usermod → Modify an existing user
--a → Append (don't remove existing groups)
--G → Secondary Group
-docker → Group name
-dimas → User
-Module 3 — Create User
+| Option  | Description          |
+| ------- | -------------------- |
+| usermod | Modify existing user |
+| -a      | Append               |
+| -G      | Secondary Group      |
+| docker  | Group name           |
+| dimas   | Username             |
 
-Manual command:
+---
 
+# ➕ Module 3 — Create User
+
+### Create a User
+
+```bash
 sudo adduser budi
+```
 
-What happens?
+### Verification
 
-Create a new user
-Create UID
-Create GID
-Create Home Directory
-Copy default files from /etc/skel
-Create password entry
-
-Verification:
-
+```bash
 id budi
 groups budi
 ls -ld /home/budi
-Module 4 — Backup Home Directory
+```
 
-Example:
+### Linux Automatically Creates
 
+* User Account
+* UID
+* Primary Group
+* Home Directory
+* Password Entry
+* Default Files from `/etc/skel`
+
+---
+
+# 💾 Module 4 — Backup Home Directory
+
+### Backup Command
+
+```bash
 sudo tar -czvf backup-budi.tar.gz /home/budi
+```
 
-Meaning:
+### Explanation
 
-Option	Description
-sudo	Execute as root
-tar	Archive utility
--c	Create archive
--z	Compress using gzip
--v	Show process
--f	Output filename
-backup-budi.tar.gz	Backup file
-/home/budi	Source directory
+| Option             | Meaning            |
+| ------------------ | ------------------ |
+| sudo               | Run as root        |
+| tar                | Archive utility    |
+| -c                 | Create archive     |
+| -z                 | Compress with gzip |
+| -v                 | Verbose output     |
+| -f                 | Output filename    |
+| backup-budi.tar.gz | Backup archive     |
+| /home/budi         | Source directory   |
 
-Check archive:
+### Verify Backup
 
+```bash
 tar -tzf backup-budi.tar.gz
-Module 5 — Delete User
+```
 
-Delete user only:
+---
 
+# ❌ Module 5 — Delete User
+
+Delete user only
+
+```bash
 sudo deluser budi
+```
 
-Delete user including home directory:
+Delete user and home directory
 
+```bash
 sudo deluser --remove-home budi
+```
 
-Recommended workflow:
+### Recommended Workflow
 
+```text
 Create User
-      ↓
-User uses the system
-      ↓
+      │
+      ▼
+Use System
+      │
+      ▼
 Backup Home Directory
-      ↓
+      │
+      ▼
 Verify Backup
-      ↓
+      │
+      ▼
 Delete User
-Key Concepts Learned
-User
+```
 
-A user is an identity used to log in to Linux.
+---
 
-Root
+# 📚 Key Concepts
 
-Root has unrestricted access to the entire system.
+| Concept        | Description                               |
+| -------------- | ----------------------------------------- |
+| User           | Identity used to log in                   |
+| Root           | Full administrative privileges            |
+| sudo           | Execute commands as root                  |
+| Group          | Collection of permissions shared by users |
+| Home Directory | Personal workspace for each user          |
 
-sudo
+---
 
-Allows a regular user to execute specific commands with root privileges.
+# 🛠 Practice Scripts
 
-Group
+| Script         | Description                    |
+| -------------- | ------------------------------ |
+| create-user.sh | Create a new Linux user        |
+| delete-user.sh | Delete an existing user        |
+| backup-home.sh | Backup a user's home directory |
 
-Groups are used to organize permissions.
+---
 
-A user may belong to multiple groups.
+# 🚀 Future Topics
 
-Examples:
+* Bash Scripting
+* chmod
+* chown
+* chgrp
+* ACL
+* Cron Job
+* SSH Administration
+* Service Management
+* Package Management
+* Log Management
 
-dimas
-sudo
-docker
-cdrom
-Useful Commands
-whoami
-id
-groups
-groups dimas
-cat /etc/passwd
-cat /etc/group
-getent group sudo
-Practice Scripts
+---
 
-This repository will include:
+<div align="center">
 
-create-user.sh
-delete-user.sh
-backup-home.sh
+### ⭐ If you find this repository useful, feel free to leave a star.
 
-Each script is built from manual administration practices before being automated.
+**Learning by Doing • Linux System Administration**
 
-Future Learning
-Bash Scripting
-File Permission (chmod)
-Ownership (chown)
-Group Management
-Cron Jobs
-Process Management
-SSH Administration
-Service Management
-Package Management
-Log Management
-Notes
-
-This repository is part of my Linux System Administration learning portfolio.
-
-Every topic is tested inside a VirtualBox virtual machine before being documented here.
+</div>
